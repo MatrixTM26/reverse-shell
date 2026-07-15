@@ -30,3 +30,9 @@ g++ -o shellcpp CPP-shell/shell-2.c
 nasm -f elf64 -o shellasm.o ASM-shell/shell.asm
 gcc shellasm.o -o shellasm -no-pie -lc
 ```
+
+---
+
+<div align="center">
+    <p align="center">&copy;Copyright 2023-2026 MatrixTM26. All right reserved.</p>
+</div>
