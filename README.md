@@ -27,5 +27,6 @@ g++ -o shellcpp CPP-shell/shell-2.c
 - ASM
 
 ```bash
-asm -o shellasm ASM-shell/shell.asm
+nasm -f elf64 -o shellasm.o ASM-shell/shell.asm
+gcc shellasm.o -o shellasm -no-pie -lc
 ```
