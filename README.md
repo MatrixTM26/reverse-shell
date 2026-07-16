@@ -1,12 +1,16 @@
 ## reverse-shell
 a list of simple linux and windows reverse shell script.
 
+---
+
 ### installation & usage
 
 ```bash
 git clone https://github.com/MatrixTM26/reverse-shell.git
 cd reverse-shell
 ```
+
+---
 
 ### compile
 
@@ -16,6 +20,11 @@ examples:
 
 ```bash
 gcc -o shellc C-shell/shell-2.c
+```
+- C (using hex binary version)
+
+```bash
+gcc -z execstack -o shellc C-shell/shell-3.c
 ```
 
 - C++
