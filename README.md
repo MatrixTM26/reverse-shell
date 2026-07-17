@@ -40,6 +40,12 @@ nasm -f elf64 -o shellasm.o ASM-shell/shell.asm
 gcc shellasm.o -o shellasm -no-pie -lc
 ```
 
+- JAVA
+
+```bash
+javac JAVA-shell/shell.java
+```
+
 ---
 
 <div align="center">
