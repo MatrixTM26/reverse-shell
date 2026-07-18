@@ -1,5 +1,5 @@
 ## reverse-shell
-a list of simple linux and windows reverse shell script.
+a list of simple linux and windows reverse shell script writen in low-mid level language.
 
 ---
 
