@@ -12,7 +12,7 @@ void xor_decode(char* data, size_t data_len, char key) {
 }
 
 int main() {
-    int                sock;
+    int sock;
     struct sockaddr_in server;
 
     // "127.0.0.1" XORed with 0xAA. The final 0xAA acts as the null terminator \0 when decoded.
@@ -27,8 +27,8 @@ int main() {
         return 1;
     }
 
-    server.sin_family      = AF_INET;
-    server.sin_port        = htons(4444);
+    server.sin_family = AF_INET;
+    server.sin_port = htons(4444);
     server.sin_addr.s_addr = inet_addr(ip_encoded);
 
     // Attempt connection

