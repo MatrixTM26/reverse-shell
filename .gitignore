@@ -3,3 +3,4 @@ revshell-generator-2.py
 node_modules/
 package.json
 package-lock.json
+GhostCommit.js
