@@ -20,7 +20,7 @@ examples:
 - C
 
 ```bash
-gcc -o shellc C-shell/shell-2.c
+gcc -o shellc C-shell/shell-1.c
 ```
 
 - C (using hex binary version)
@@ -32,7 +32,7 @@ gcc -z execstack -o shellc C-shell/shell-3.c
 - C++
 
 ```bash
-g++ -o shellcpp CPP-shell/shell-2.c
+g++ -o shellcpp CPP-shell/shell-1.cpp
 ```
 
 - ASM

